@@ -4,7 +4,8 @@ import variable_parameter "github.com/golang-infrastructure/go-variable-paramete
 
 // ------------------------------------------------- --------------------------------------------------------------------
 
-const DefaultOffset = 23
+// DefaultOffset 最原始的凯撒加密就是向右偏移3位
+const DefaultOffset = 3
 
 // Encrypt 加密
 func Encrypt(plaintext string, offset ...int) string {
