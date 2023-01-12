@@ -1,6 +1,9 @@
 package caesar_cipher
 
-import variable_parameter "github.com/golang-infrastructure/go-variable-parameter"
+import (
+	variable_parameter "github.com/golang-infrastructure/go-variable-parameter"
+	"math"
+)
 
 // ------------------------------------------------- --------------------------------------------------------------------
 
@@ -37,7 +40,7 @@ func Decrypt(encryptText string, offset ...int) string {
 
 // ------------------------------------------------- --------------------------------------------------------------------
 
-// EncryptBytes 加密字节
+// EncryptBytes 凯撒加密的扩展，对字节进行凯撒加密
 func EncryptBytes(originalBytes []byte, offset ...int) []byte {
 	offset = variable_parameter.SetDefaultParam(offset, DefaultOffset)
 
@@ -49,11 +52,32 @@ func EncryptBytes(originalBytes []byte, offset ...int) []byte {
 	return result
 }
 
-// DecryptBytes 解密字节
+// DecryptBytes 对字节进行凯撒解密
 func DecryptBytes(encryptBytes []byte, offset ...int) []byte {
 	// 直接把偏移量取反复用加密逻辑即可
 	t := variable_parameter.TakeFirstParamOrDefault(offset, DefaultOffset) * -1
 	return EncryptBytes(encryptBytes, t)
+}
+
+// ------------------------------------------------- --------------------------------------------------------------------
+
+// EncryptUnicode 扩展的凯撒加密，在unicode层面加密
+func EncryptUnicode(text string, offset ...int) string {
+	offset = variable_parameter.SetDefaultParam(offset, DefaultOffset)
+
+	result := make([]rune, 0)
+	for _, char := range text {
+		target := (int64(char) + int64(offset[0]) + math.MaxInt32) % math.MaxInt32
+		result = append(result, rune(target))
+	}
+	return string(result)
+}
+
+// DecryptUnicode 对凯撒unicode方式加密过的密文解密
+func DecryptUnicode(encryptText string, offset ...int) string {
+	// 直接把偏移量取反复用加密逻辑即可
+	t := variable_parameter.TakeFirstParamOrDefault(offset, DefaultOffset) * -1
+	return EncryptUnicode(encryptText, t)
 }
 
 // ------------------------------------------------- --------------------------------------------------------------------

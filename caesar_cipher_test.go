@@ -112,3 +112,59 @@ func TestDecryptBytes(t *testing.T) {
 		})
 	}
 }
+
+func TestEncryptUnicode(t *testing.T) {
+	type args struct {
+		text   string
+		offset []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		// TODO: Add test cases.
+		{
+			args: args{
+				text:   "中文凯撒移位",
+				offset: []int{1},
+			},
+			want: "丮斈凰撓秼低",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := EncryptUnicode(tt.args.text, tt.args.offset...); got != tt.want {
+				t.Errorf("EncryptUnicode() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDecryptUnicode(t *testing.T) {
+	type args struct {
+		encryptText string
+		offset      []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		// TODO: Add test cases.
+		{
+			args: args{
+				encryptText: "丮斈凰撓秼低",
+				offset:      []int{1},
+			},
+			want: "中文凯撒移位",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := DecryptUnicode(tt.args.encryptText, tt.args.offset...); got != tt.want {
+				t.Errorf("DecryptUnicode() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
