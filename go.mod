@@ -1,5 +1,5 @@
-module github.com/golang-infrastructure/go-caesar-cipher
+module github.com/cryptography-research-lab/go-caesar-cipher
 
-go 1.20
+go 1.18
 
 require github.com/golang-infrastructure/go-variable-parameter v0.0.3
