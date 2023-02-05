@@ -37,3 +37,20 @@ func CrackForAll(encryptText string) []string {
 	}
 	return resultSlice
 }
+
+// CrackOffset 破解出这个密文的偏移量，并将这个偏移量对应的明文返回
+func CrackOffset(ciphertext string) (int, string) {
+	offset := 0
+	plaintext := ""
+	maxScore := float64(-1)
+	for i := 0; i < 26; i++ {
+		decrypt := Decrypt(ciphertext, i)
+		_, score := sentence_score.CalculateScore(decrypt)
+		if score > maxScore {
+			maxScore = score
+			offset = i
+			plaintext = decrypt
+		}
+	}
+	return offset, plaintext
+}

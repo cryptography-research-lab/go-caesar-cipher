@@ -1,6 +1,7 @@
 package caesar_cipher
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -15,4 +16,11 @@ func TestCrack(t *testing.T) {
 	s := CrackForOne(encrypt)
 	t.Log(s)
 
+}
+
+func TestCrackOffset(t *testing.T) {
+	ciphertext := "khoorzruog,lwfdqqrwehghfubswlrq"
+	offset, s := CrackOffset(ciphertext)
+	assert.Equal(t, 3, offset)
+	assert.Equal(t, "helloworld,itcannotbedecryption", s)
 }
